@@ -2,4 +2,5 @@
 .venv
 file.json
 .vscode
+versions
 test_script.sh
