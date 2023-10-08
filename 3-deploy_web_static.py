@@ -7,6 +7,8 @@ from fabric.api import put, run, env
 
 
 env.hosts = ["54.160.84.211", "54.172.244.75"]
+
+
 def do_pack():
     """generates a .tgz archive from the contents of the web_static
     folder of your AirBnB Clone"""
@@ -26,21 +28,17 @@ def do_deploy(archive_path):
     """distributes an archive to your web servers"""
     if not path.exists(archive_path):
         return False
-    archive_file = archive_path[9:]
+    archive_file = "/tmp/" + archive_path[9:]
+    latest_release = "/data/web_static/releases/" + archive_path[9:-4]
     put(archive_path, "/tmp/")
-    run("sudo mkdir -p /data/web_static/releases/{}/".format(
-        archive_file[:-4]))
-    run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(
-        archive_file,
-        archive_file[:-4]))
-    run("sudo rm -rf /tmp/{}".format(archive_file))
-    run("sudo mv /data/web_static/releases/" + archive_file[:-4] + "/web_static/*" +
-        " /data/web_static/releases/{}".format(archive_file[:-4]))
-    run("sudo rm -rf /data/web_static/releases/{}/web_static/".format(
-        archive_file[:-4]))
+    run("sudo mkdir -p {}".format(latest_release))
+    run("sudo tar -xzf {} -C {}".format(archive_file, latest_release))
+    run("sudo rm {}".format(archive_file))
+    run("sudo mv {location}/web_static/* {location}".format(
+        location=latest_release))
+    run("sudo rm -rf {}/web_static".format(latest_release))
     run("sudo rm -rf /data/web_static/current")
-    run("sudo ln -s /data/web_static/releases/{}/ /data/web_static/current"
-        .format(archive_file[:-4]))
+    run("sudo ln -s {} /data/web_static/current".format(latest_release))
     print("New version deployed!")
     return True
 
