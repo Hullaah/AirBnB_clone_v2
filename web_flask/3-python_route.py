@@ -25,8 +25,14 @@ def c(text: str):
     return "C {}".format(escape(text).replace('_', ' '))
 
 
+@app.route("/python/", strict_slashes=False)
+def python1(text: str):
+    """view for /python/"""
+    return "Python is cool"
+
+
 @app.route("/python/<text>", strict_slashes=False)
-def python(text: str):
+def python2(text: str):
     """view for /python/<text> where text is any value"""
     return "Python {}".format(escape(text).replace('_', ' '))
 
