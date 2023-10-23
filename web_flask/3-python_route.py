@@ -26,7 +26,7 @@ def c(text: str):
 
 
 @app.route("/python/", strict_slashes=False)
-def python1(text: str):
+def python1():
     """view for /python/"""
     return "Python is cool"
 
