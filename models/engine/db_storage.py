@@ -9,7 +9,7 @@ from models.base_model import Base
 class DBStorage:
     """This class manages the storage of the hbnb models in MySQL database"""
     __engine = None
-    __session : Session = None # type: ignore
+    __session: Session = None  # type: ignore
 
     def __init__(self):
         """Initialiser for the hbnb Database storage"""
@@ -22,7 +22,7 @@ class DBStorage:
         _connection_string += f":3306/{_database}"
         self.__engine = create_engine(_connection_string, pool_pre_ping=True)
         if _mode == "test":
-            Base.metadata.drop_all(self.__engine) # type: ignore
+            Base.metadata.drop_all(self.__engine)  # type: ignore
 
     def all(self, cls=None):
         """Returns all the object specified by cls"""
@@ -65,7 +65,11 @@ class DBStorage:
         from models.user import User
         from models.place import Place
         from models.amenity import Amenity
-        Base.metadata.create_all(self.__engine) # type: ignore
+        Base.metadata.create_all(self.__engine)  # type: ignore
         Session = scoped_session(sessionmaker(
             bind=self.__engine, expire_on_commit=False))
         self.__session = Session()
+
+    def close(self):
+        """removes the current session"""
+        self.__session.close()
