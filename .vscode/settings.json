@@ -14,5 +14,9 @@
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true,
-    "python.analysis.autoImportCompletions": true
+    "python.analysis.autoImportCompletions": true,
+    "files.associations": {
+        ".env*": "dotenv",
+        "bytesobject.h": "c"
+    }
 }
